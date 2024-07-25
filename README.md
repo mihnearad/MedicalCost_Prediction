@@ -1,42 +1,55 @@
-# MedicalCost_Prediction
- 
-The purpose of this project was to check for correlation and prediction possibility for a medical dataset. 
+# Medical Cost Prediction
 
-The dataset used is this one: https://www.kaggle.com/datasets/waqi786/medical-costs
+The purpose of this project was to check for correlation and prediction possibility for a medical dataset.
 
+The dataset used is available on [Kaggle](https://www.kaggle.com/datasets/waqi786/medical-costs):
 "This dataset contains detailed information about medical costs for individuals over the period from 2010 to 2020. It includes various attributes such as age, sex, BMI, number of children, smoking status, and region. These attributes are essential in understanding the factors that influence medical costs and can be used for predictive modeling, statistical analysis, and research purposes."
 
-First, I wanted to analyze the data to check for distribution and split of the different features. 
+## Data Analysis
 
-After that, I used my GPU alongside XGBRegression model to train and test a model which later would be used for fitting. Initial results seemed promising: 
+First, I analyzed the data to check for the distribution and split of the different features.
 
-Mean Absolute Error: 255.77263634114584\
-Mean Squared Error: 87840.25774818643\
-R-squared: 0.9976068143268261
+## Model Training and Initial Results
+
+Using my GPU alongside the `XGBRegressor` model, I trained and tested a model. The initial results seemed promising:
+
+- **Mean Absolute Error:** 255.77
+- **Mean Squared Error:** 87840.26
+- **R-squared:** 0.998
 
 ![alt text](Images/ActualvsPredicted.png)
 
-After this, I moved over from the Jupyter file to two scripts: 
+## Model Deployment
 
-train_model.py\
-predict_cost.py\
+After this, I transitioned from the Jupyter notebook to two scripts:
 
-The role of these two files was to train the model and then predict the cost with as little configuration as possible. The predict_cost script also included user input fields, which would later assist us when creating a flask back-end with HTML front-end. 
+- `train_model.py`
+- `predict_cost.py`
 
-In app.py and index.html you can see the flask back-end that is connected to the front end. 
+The role of these two files is to train the model and then predict the cost with minimal configuration. The `predict_cost.py` script also includes user input fields, which would later assist us when creating a Flask back-end with an HTML front-end.
 
-The web-server can be started by typing "python -m http.server" into the terminal
+In `app.py` and `index.html`, you can see the Flask back-end connected to the front end.
 
-The end result looks like this: 
+The web server can be started by typing:
+
+\```bash
+python -m http.server
+\```
+
+The end result looks like this:
 
 ![alt text](Images/FrontEnd.png)
 
-However, I was not happy due to the fact that there seemed to be a large bias against smokers, and while it's logical, I wanted to see if I did any mistakes during the model training. So I created the balanced version. Additionally, the model seemed to be very biased to numbers between 6k and 8k and 16k to 20k. Nothing in between. 
+## Model Bias and Sensitivity Analysis
 
-Well, this was easy to solve by a simple distribution chart: 
+However, I noticed a large bias against smokers. While this is logical, I wanted to ensure there were no mistakes during model training. I created a balanced version to address this concern. Additionally, the model seemed to be very biased towards numbers between 6k and 8k and 16k to 20k, with nothing in between.
+
+A simple distribution chart revealed the bias:
 
 ![alt text](Images/DistributionChart.png)
 
+The correlation heatmap shows that smoking status has a significant impact on medical costs:
 
+![alt text](Images/CorrelationHeatmap.png)
 
-![alt text](image.png)
+Understanding that the sampling method might introduce bias, I fed the model some random values to test its sensitivity. The ones in red signal that the person is a smoker. While age, BMI, number of children, and region have an impact, their influence is much smaller compared to smoking status.
