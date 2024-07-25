@@ -53,3 +53,5 @@ The correlation heatmap shows that smoking status has a significant impact on me
 ![alt text](Images/CorrelationHeatmap.png)
 
 Understanding that the sampling method might introduce bias, I fed the model some random values to test its sensitivity. The ones in red signal that the person is a smoker. While age, BMI, number of children, and region have an impact, their influence is much smaller compared to smoking status.
+
+![alt text](Images\Examples.png)
